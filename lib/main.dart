@@ -4,7 +4,7 @@ import 'package:islami_c15_mon_nahas/islami_app.dart';
 void main() {
 
 
-  runApp(const IslamiApp());
+  runApp( IslamiApp());
 }
 
 
