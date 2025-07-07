@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:islami_c15_mon_nahas/core/colors_manager.dart';
+import 'package:islami_c15_mon_nahas/core/prefs_manager/prefs_manager.dart';
 import 'package:islami_c15_mon_nahas/core/routes_manager/routes_manager.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -38,10 +39,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     imagePadding: EdgeInsets.zero,
   );
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     pages = [
       PageViewModel(
         title: "Welcome To Islmi App",

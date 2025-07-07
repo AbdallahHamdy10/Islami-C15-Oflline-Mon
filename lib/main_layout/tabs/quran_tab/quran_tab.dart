@@ -2,10 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:islami_c15_mon_nahas/core/colors_manager.dart';
 import 'package:islami_c15_mon_nahas/core/sura_model.dart';
 import 'package:islami_c15_mon_nahas/main_layout/tabs/quran_tab/widgets/most_recent_item.dart';
+import 'package:islami_c15_mon_nahas/main_layout/tabs/quran_tab/widgets/most_recent_widget.dart';
 import 'package:islami_c15_mon_nahas/main_layout/tabs/quran_tab/widgets/quran_item.dart';
 
-class QuranTab extends StatelessWidget {
-  const QuranTab({super.key});
+class QuranTab extends StatefulWidget {
+   QuranTab({super.key});
+
+  @override
+  State<QuranTab> createState() => _QuranTabState();
+}
+
+class _QuranTabState extends State<QuranTab> {
+  late GlobalKey<MostRecentWidgetState> mostRecentSurasWidget ;
+  List<SuraModel> filteredSuras = SuraModel.suras; /// 114 sura
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mostRecentSurasWidget = GlobalKey<MostRecentWidgetState>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +40,19 @@ class QuranTab extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             child: TextField(
+
+              onChanged: (input) {
+                searchForSuraBySearchKey(input);
+              },
               style: TextStyle(
                 fontSize: 16,
                 color: ColorsManager.white,
                 fontWeight: FontWeight.w500,
               ),
-              decoration: InputDecoration(labelText: "Sura name"),
+              decoration: InputDecoration(
+              prefixIcon: ImageIcon(AssetImage("assets/images/quran_icon.png")),
+              prefixIconColor: ColorsManager.gold
+              ,labelText: "Sura name"),
             ),
           ),
           SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
@@ -38,18 +60,7 @@ class QuranTab extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10, left: 20),
             child: Text("Most Recently", style: TextStyle(color: Colors.white)),
           ),
-          SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.18,
-            child: Container(
-              margin: EdgeInsets.only(left: 10),
-              child: ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(width: 5),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) => MostRecentItem(),
-                itemCount: 6,
-              ),
-            ),
-          ),
+          MostRecentWidget(key: mostRecentSurasWidget,),
 
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -70,13 +81,26 @@ class QuranTab extends StatelessWidget {
                 );
               },
               itemBuilder:
-                  (context, index) =>
-                      QuranItem(suraModel: SuraModel.suras[index],index: index,),
-              itemCount: SuraModel.suras.length,
+                  (context, index) => QuranItem(
+                    mostRecentWidgetKey: mostRecentSurasWidget,
+                    suraModel: filteredSuras[index],
+                    index: index,
+                  ),
+              itemCount: filteredSuras.length
             ),
           ),
         ],
       ),
     );
+  }
+
+  void searchForSuraBySearchKey(String searchKey) {
+    print("searchKey: ${searchKey}");
+   filteredSuras =  SuraModel.suras.where((sura) => sura.suraNameEn.toLowerCase().contains(searchKey.toLowerCase())|| sura.suraNameAr.contains(searchKey)).toList();
+
+
+   setState(() {
+
+   });
   }
 }

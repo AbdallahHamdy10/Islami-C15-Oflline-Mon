@@ -12,7 +12,7 @@ class IslamiApp extends StatelessWidget {
    return MaterialApp(
      debugShowCheckedModeBanner: false,
      routes: RoutesManager.routes,
-     initialRoute: RoutesManager.onBoardingRoute,
+     initialRoute: RoutesManager.splashRoute,
      theme: ThemeManager.light
 
    );

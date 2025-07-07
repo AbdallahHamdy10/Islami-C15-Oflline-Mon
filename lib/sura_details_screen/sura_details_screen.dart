@@ -28,7 +28,15 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
         .of(context)
         ?.settings
         .arguments as SuraDetailsArguments;
-    loadSuraContentFromFile(arguments.index + 1);
+    int index = int.parse(arguments.suraModel.suraIndex);
+    loadSuraContentFromFile(index);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    arguments.mostRecentWidgetKey?.currentState?.refreshMostRecentSuras();
   }
 
 
